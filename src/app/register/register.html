@@ -1,0 +1,101 @@
+<div class="form-container">
+  <form [formGroup]="formdata" (ngSubmit)="onClickSubmit()">
+
+    <!-- Username -->
+    <mat-form-field appearance="fill">
+      <mat-label>Username</mat-label>
+      <input matInput placeholder="Enter Username" formControlName="userName">
+      <mat-error *ngIf="formdata.get('userName')?.invalid && formdata.get('userName')?.touched">
+        Username is required.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Email -->
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" placeholder="Enter Email" formControlName="email">
+      <mat-error *ngIf="formdata.get('email')?.invalid && formdata.get('email')?.touched">
+        Email is required and must be valid.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Password -->
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" placeholder="Enter Password" formControlName="password" matTooltip="Password must be at least 8 characters">
+      <mat-error *ngIf="formdata.get('password')?.invalid && formdata.get('password')?.touched">
+        Password must be at least 8 characters.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Gender -->
+    <mat-radio-group formControlName="gender">
+      <mat-radio-button value="male">Male</mat-radio-button>
+      <mat-radio-button value="female">Female</mat-radio-button>
+      <mat-radio-button value="other">Other</mat-radio-button>
+    </mat-radio-group>
+    <p *ngIf="formdata.get('gender')?.invalid && formdata.get('gender')?.touched" style="color:red">
+      Gender is required.
+    </p>
+
+    <!-- Address -->
+    <mat-form-field appearance="fill">
+      <mat-label>Address</mat-label>
+      <input matInput placeholder="Enter Address" formControlName="address">
+    </mat-form-field>
+
+    <!-- Birth Date -->
+    <mat-form-field appearance="fill">
+      <mat-label>Birth Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="birthDate">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="formdata.get('birthDate')?.invalid && formdata.get('birthDate')?.touched">
+        Birth date is required.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Country (MatSelect) -->
+    <mat-form-field appearance="fill">
+      <mat-label>Country</mat-label>
+      <mat-select formControlName="country">
+        <mat-option *ngFor="let c of countries" [value]="c">{{ c }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="formdata.get('country')?.invalid && formdata.get('country')?.touched">
+        Country is required.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Angular Skill Level -->
+    <label>Angular Skill Level: {{ formdata.get('angularSkillLevel')?.value }}</label>
+    <mat-slider [min]="minSkillLevel" [max]="maxSkillLevel" [step]="1" discrete>
+      <input matSliderThumb formControlName="angularSkillLevel">
+    </mat-slider>
+
+    <!-- Accept Terms (MatCheckbox) -->
+    <mat-checkbox formControlName="acceptTerms">
+      I accept the terms and conditions
+    </mat-checkbox>
+    <p *ngIf="formdata.get('acceptTerms')?.invalid && formdata.get('acceptTerms')?.touched" style="color:red">
+      You must accept terms.
+    </p>
+
+    <!-- Submit -->
+    <button mat-raised-button color="primary" type="submit" [disabled]="formdata.invalid">
+      Submit
+    </button>
+
+  </form>
+
+  <div *ngIf="submitted && submittedData">
+  <h3>Submitted Data:</h3>
+  <p><strong>Username:</strong> {{ submittedData.userName }}</p>
+  <p><strong>Email:</strong> {{ submittedData.email }}</p>
+  <p><strong>Gender:</strong> {{ submittedData.gender }}</p>
+  <p><strong>Address:</strong> {{ submittedData.address }}</p>
+  <p><strong>Birth Date:</strong> {{ submittedData.birthDate | date:'shortDate' }}</p>
+  <p><strong>Country:</strong> {{ submittedData.country }}</p>
+  <p><strong>Angular Skill Level:</strong> {{ submittedData.angularSkillLevel }}</p>
+  <p><strong>Accepted Terms:</strong> {{ submittedData.acceptTerms ? 'Yes' : 'No' }}</p>
+</div>
+</div>
